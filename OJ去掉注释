@@ -1,0 +1,41 @@
+#include <stdio.h>
+
+int main() {
+    int c, next; // 用 int 类型接收 getchar() 才能正确判断 EOF
+
+    while ((c = getchar()) != EOF) {
+        if (c == '/') {
+            next = getchar();
+            if (next == '*') {
+                // 进入注释状态，开始寻找 */
+                int in_comment = 1;
+                while (in_comment) {
+                    c = getchar();
+                    if (c == EOF) {
+                        break; // 防止文件意外结束导致死循环
+                    }
+                    if (c == '*') {
+                        next = getchar();
+                        if (next == '/') {
+                            in_comment = 0; // 成功匹配到 */，退出注释
+                        } else {
+                            if (next == EOF) break;
+                            c = next; 
+                            if (c == '*') {
+                            }
+                        }
+                    }
+                }
+            } else {
+                putchar(c);
+                if (next != EOF) {
+                    putchar(next);
+                }
+            }
+        } else {
+            // 普通字符，直接输出
+            putchar(c);
+        }
+    }
+    return 0;
+}
